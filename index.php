@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Lab 1.4</title>
+    <title>Web Assignment</title>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
         $id = $_COOKIE['auto_login'];
 
         // Database connection
-        $mysqli = new mysqli("localhost", "root", "", "OnlineStore");
+        $mysqli = new mysqli("localhost", "root", "", "WebAss");
 
         // Fetch user details from the database
         $sql = "SELECT * FROM users WHERE id = ?";
@@ -29,7 +29,6 @@
             $_SESSION['id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['email'] = $row['email'];
-            $_SESSION['role'] = $row['role'];
 
             // Optionally refresh the cookie
             setcookie('auto_login', $row['id'], time() + 300); // Resets expiration time
@@ -60,7 +59,7 @@
                     </li>
                     <?php if (isset($_SESSION['email'])) : ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Welcome, <?php echo $_SESSION['username']; ?> (<?php echo $_SESSION['role']; ?>)</a>
+                            <a class="nav-link" href="#">Welcome, <?php echo $_SESSION['username']; ?></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="logout.php">Logout</a>
@@ -89,6 +88,7 @@
         }
         ?>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>

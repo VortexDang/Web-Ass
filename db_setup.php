@@ -39,7 +39,7 @@ $sql = "CREATE TABLE IF NOT EXISTS resumes (
     full_name VARCHAR(255) NOT NULL,
     date_of_birth DATE NOT NULL,
     address VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(20) NOT NULL,
+    phone_number TEXT NOT NULL,
     certificate TEXT,
     mail VARCHAR(255) NOT NULL,
     experience TEXT,

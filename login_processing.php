@@ -28,7 +28,6 @@ if ($row = $result->fetch_assoc()) {
         $_SESSION['id'] = $row['id'];
         $_SESSION['username'] = $row['username'];
         $_SESSION['email'] = $row['email'];
-        $_SESSION['role'] = $row['role'];
 
         // Set a cookie for auto-login
         setcookie('auto_login', $row['id'], time() + 300);

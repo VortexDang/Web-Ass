@@ -33,7 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sss", $username, $email, $hash_password);
 
     if ($stmt->execute()) {
-        // Redirect to index.php after successful registration
         header("Location: index.php?page=login");
         exit;
     } else {
