@@ -23,6 +23,7 @@ $name = $_POST["name"];
 $fullName = $_POST["full_name"];
 $dateOfBirth = $_POST["date_of_birth"];
 $address = $_POST["address"];
+$introduction = $_POST["introduction"];
 $phoneNumber = $_POST["phone_number"];
 $certificate = $_POST["certificate"];
 $mail = $_POST["mail"];
@@ -31,12 +32,12 @@ $education = $_POST["education"];
 $skill = $_POST["skill"];
 
 // Prepare the SQL statement
-$sql = "INSERT INTO resumes (userId, name, full_name, date_of_birth, address, phone_number, certificate, mail, experience, education, skill)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO resumes (userId, name, full_name, date_of_birth, address, introduction, phone_number, certificate, mail, experience, education, skill)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 // Prepare and bind the SQL statement
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param("issssssssss", $userId, $name, $fullName, $dateOfBirth, $address, $phoneNumber, $certificate, $mail, $experience, $education, $skill);
+$stmt->bind_param("issssssssss", $userId, $name, $fullName, $dateOfBirth, $address, $introduction, $phoneNumber, $certificate, $mail, $experience, $education, $skill);
 
 // Execute the statement
 if ($stmt->execute()) {

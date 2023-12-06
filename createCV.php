@@ -51,6 +51,10 @@
                 <textarea class="form-control form-control-sm" id="phone_number" name="phone_number" rows="4" required></textarea>
             </div>
             <div class="mb-3">
+                <label for="introduction" class="form-label">Introduction<span class="text-danger">*</span></label>
+                <textarea class="form-control form-control-sm" id="introduction" name="introduction" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
                 <label for="certificate" class="form-label">Certificate/Degree<span class="text-danger">*</span></label>
                 <textarea class="form-control form-control-sm" id="certificate" name="certificate" rows="4" required></textarea>
             </div>
