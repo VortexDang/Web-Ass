@@ -1,3 +1,111 @@
+<?php
+
+session_start();
+
+// Check if the form was submitted with POST method
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Check if both email and password are set
+  if (isset($_POST['email']) && isset($_POST['password'])) {
+    // Create a connection
+    $mysqli = new mysqli("localhost", "root", "", "UserAccount");
+
+    // Check connection
+    if ($mysqli->connect_error) {
+        die("Connection failed: " . $mysqli->connect_error);
+    }
+
+    // Get the email and password from the form
+    $email = $_POST['user_email'];
+    $password = $_POST['user_password'];
+
+    // Prepare a SQL query to find the user with the entered email
+    $sql = "SELECT * FROM users WHERE email = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();  
+
+    // Check if the user exists and if the password is correct
+    if ($row = $result->fetch_assoc()) {
+        if (password_verify($password, $row['password'])) {
+            // Assign values to session variables
+            // $_SESSION['userID'] = $row['userID'];
+            // $_SESSION['username'] = $row['username'];
+            $_SESSION['email'] = $row['email'];
+
+
+            // Set a cookie for auto-login
+            setcookie('auto_login', $row['email'], time() + 300);
+
+            // Redirect to the dashboard
+            header("Location: index.php");
+        } else {
+            echo '<script>window.alert("Incorrect username or password!");</script>';
+            // header("Location: index.php?page=login");
+        }
+    } else {
+        echo '<script>window.alert("Incorrect username or password!");</script>';
+        // header("Location: index.php?page=login");
+    }
+
+    // Close the connection
+    $mysqli->close();
+  } else {
+      // Redirect or display an error message if email or password is not set
+      echo '<script>window.alert("Email and password are required!");</script>';
+      // header("Location: index.php?page=login");
+  }
+} else {
+  // Redirect or display an error message if the form was not submitted with POST method
+  echo '<script>window.alert("Invalid form submission!");</script>';
+  // header("Location: index.php?page=login");
+}
+
+if(isset($_POST["login"])) {
+  $email = $_POST["$email"];
+  $password = $_POST["$password"];
+  require_once "database.php";
+  $sql = "SELECT * FROM users where email='$email'";
+  $result = mysqli_query($conn, $sql);
+  $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
+  if($user) {
+    if(password_verify($password, $user["password"])) {
+      header("Location: index.php");
+      die();
+    }
+    else {
+      echo "<div class = 'alert alert-danger'>Password does not match</div>"; 
+    }
+  } else {
+    echo "<div class = 'alert alert-danger'>Email does not exist</div>"; 
+  }
+}
+
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     $email = $_POST["email"];
+//     $password = $_POST["password"];
+
+//     // SQL to retrieve hashed password from the database
+//     $sql = "SELECT password FROM users WHERE email = '$email'";
+//     $result = $conn->query($sql);
+
+//     if ($result->num_rows > 0) {
+//         $row = $result->fetch_assoc();
+//         $hashed_password = $row["password"];
+
+//         // Verify the entered password
+//         if (password_verify($password, $hashed_password)) {
+//             echo "Login successful!";
+//         } else {
+//             echo "Invalid password!";
+//         }
+//     } else {
+//         echo "User not found!";
+//     }
+// }
+// $conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +119,7 @@
 <body>
     <div class="wrapper">
 
-        <h1>Login</h1>  
+        <h1>Login</h1>
         <div class="input-box">
             <input type="text" name="email" placeholder="Email" required />
             <box-icon type="solid" name="user"></box-icon>
@@ -95,7 +203,7 @@
     .wrapper .btn {
         width: 100%;
         height: 45px;
-        background: #fff;
+        background: linear-gradient(135deg, #71b7e6, #9b59b6);
         border: none;
         outline: none;
         border-radius: 40px;
